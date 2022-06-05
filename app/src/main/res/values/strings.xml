@@ -7,4 +7,5 @@
     <string name="sss">Email</string>
     <string name="contrasena">Contraseña</string>
     <string name="cerra_sesion">Cerra Sesion</string>
+    <string name="prefs_file">valor.PREFERENCE_FILE_KEY</string>
 </resources>

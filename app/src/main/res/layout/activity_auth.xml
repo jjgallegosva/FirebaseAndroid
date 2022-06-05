@@ -63,6 +63,18 @@
                     android:layout_weight="1"
                     android:text="@string/acceder" />
             </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Google"
+                android:background="@color/black"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:paddingStart="16dp"
+                android:textAlignment="textStart"
+                android:drawableStart="@drawable/logo_google">
+
+            </Button>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
