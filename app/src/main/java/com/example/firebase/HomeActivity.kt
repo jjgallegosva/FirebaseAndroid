@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 
 enum class ProviderType{
-    Basic,GOOGLE
+    Basic,GOOGLE,FACEBOOK
 }
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding : ActivityHomeBinding

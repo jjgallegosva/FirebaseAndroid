@@ -64,10 +64,27 @@
                     android:text="@string/acceder" />
             </LinearLayout>
             <Button
+                android:id="@+id/botonGoogle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Google"
                 android:background="@color/black"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:paddingStart="16dp"
+                android:textAlignment="textStart"
+                android:drawableStart="@drawable/logo_google">
+
+            </Button>
+
+
+
+            <Button
+                android:id="@+id/botonFacebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Facebook"
+                android:background="@color/teal_200"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 android:paddingStart="16dp"
