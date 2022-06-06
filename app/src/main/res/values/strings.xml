@@ -9,4 +9,7 @@
     <string name="cerra_sesion">Cerra Sesion</string>
     <string name="prefs_file">valor.PREFERENCE_FILE_KEY</string>
     <string name ="default_web_cliend_id">893913651931-0j52svqr8ad320v1l5ouv9jgj6tululu.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">381686967111565</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">b4aa43b0ccec10cf4af32bcc10839b80</string>
 </resources>

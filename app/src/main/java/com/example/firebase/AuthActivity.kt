@@ -13,6 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.firebase.databinding.ActivityAuthBinding
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.IdpResponse
@@ -20,14 +27,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FacebookAuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FacebookAuthProvider.getCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_auth.*
 
 
 class AuthActivity : AppCompatActivity() {
-
+    private val callbackMANAGER= CallbackManager.Factory.create()
     private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+
         if (result.resultCode == Activity.RESULT_OK) {
             // handle the response in result.data
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
@@ -51,6 +62,7 @@ class AuthActivity : AppCompatActivity() {
     }
     private lateinit var binding : ActivityAuthBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth)
@@ -102,6 +114,37 @@ class AuthActivity : AppCompatActivity() {
             launcher.launch(googleClient.signInIntent)
              //startActivityForResult(googleClient.signInIntent,GOOGLE_SIGN_IN)
         }
+        botonFacebook.setOnClickListener {
+            Log.d("*******************","ingreso al boton facebook")
+            LoginManager.getInstance().registerCallback(callbackMANAGER,
+                object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(result: LoginResult) {
+                        Log.d("*******************","reuslt onsuccess")
+                        result?.let {
+                            val token =it.accessToken
+                            val credential = FacebookAuthProvider.getCredential(token.token)
+                            FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener{
+                                if(it.isSuccessful){
+                                    showHome(it.result?.user?.email?:"",ProviderType.FACEBOOK)
+                                }
+                                else{
+                                    showAlert()
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancel() {
+                        Log.d("*******************","reuslt cancel")
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onError(error: FacebookException) {
+                        Log.d("*******************","reuslt error")
+                       showAlert()
+                    }
+                })
+        }
     }
     private fun showAlert(){
         val builder = AlertDialog.Builder(this)
@@ -125,6 +168,13 @@ class AuthActivity : AppCompatActivity() {
         if (email !==null && provider !== null){
             showHome(email,ProviderType.valueOf(provider))
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        // Pass the activity result back to the Facebook SDK
+        callbackMANAGER.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
 

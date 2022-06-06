@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.example.firebase.databinding.ActivityAuthBinding
 import com.example.firebase.databinding.ActivityHomeBinding
+import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -46,6 +47,9 @@ class HomeActivity : AppCompatActivity() {
             pref.clear()
             pref.apply()
             Log.d("valor salido","mira aca")
+            if (provider ===ProviderType.FACEBOOK.name){
+                LoginManager.getInstance().logOut()
+            }
             FirebaseAuth.getInstance().signOut()
             onBackPressed()
         }
